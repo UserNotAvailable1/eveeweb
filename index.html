@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Simple Website</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #fff;
+            background: #111;
+            overflow: hidden;
+        }
+        .flag {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            display: grid;
+            grid-template-rows: repeat(5, 1fr);
+        }
+        .stripe {
+            width: 100%;
+        }
+        .stripe.red {
+            background: #bf0a30;
+        }
+        .stripe.white {
+            background: #ffffff;
+        }
+        .triangle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 35%;
+            background: #002868;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+        .star {
+            position: absolute;
+            left: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 8rem;
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+        }
+        .page {
+            max-width: 860px;
+            width: 100%;
+            padding: 2rem;
+            border-radius: 28px;
+            background: rgba(0, 0, 0, 0.55);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin: 0 0 1rem;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .note {
+            margin-top: 1.25rem;
+            color: #e8e8e8;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="flag">
+        <div class="stripe red"></div>
+        <div class="stripe white"></div>
+        <div class="stripe red"></div>
+        <div class="stripe white"></div>
+        <div class="stripe red"></div>
+    </div>
+    <div class="triangle"></div>
+    <div class="star">★</div>
+    <div class="page">
+        <h1>Evelyn Ayala</h1>
+        <div class="video-wrapper">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/XqZsoesa55w?si=kYWuQkvA5fNsreGc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="note">Replace “Your Name” and the YouTube URL with your own content. The background uses the Puerto Rican flag colors.</p>
+    </div>
+</body>
+</html>
