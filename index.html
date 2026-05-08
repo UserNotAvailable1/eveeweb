@@ -3,116 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Website</title>
+    <title>JustHazzardous - Gaming Hub</title>
     <style>
         :root {
-            color-scheme: dark;
+            --primary: #ff6b35;
+            --secondary: #f7931e;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #e94560;
         }
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
         body {
-            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            color: #fff;
             min-height: 100vh;
+        }
+        .header {
+            background: rgba(0,0,0,0.8);
+            padding: 2rem;
+            box-shadow: 0 0 20px var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--primary);
+        }
+        .nav {
+            margin-top: 1rem;
+        }
+        .nav a {
+            color: var(--secondary);
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav a:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .hero {
+            min-height: 520px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            color: #fff;
-            background: #111;
+            position: relative;
+            perspective: 1200px;
             overflow: hidden;
         }
-        .flag {
-            position: fixed;
+        .hero-bg {
+            position: absolute;
             inset: 0;
-            z-index: -1;
-            display: grid;
-            grid-template-rows: repeat(5, 1fr);
+            transform-style: preserve-3d;
+            animation: heroFloat 20s ease-in-out infinite;
         }
-        .stripe {
-            width: 100%;
-        }
-        .stripe.red {
-            background: #bf0a30;
-        }
-        .stripe.white {
-            background: #ffffff;
-        }
-        .triangle {
+        .hero-bg::before,
+        .hero-bg::after {
+            content: '';
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 35%;
-            background: #002868;
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200&auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-        .star {
+        .hero-bg::before {
+            transform: translateZ(-40px) scale(1.12) rotateY(8deg);
+            filter: blur(2px) brightness(0.72);
+            opacity: 0.85;
+            animation: heroShift 28s linear infinite reverse;
+        }
+        .hero-bg::after {
+            transform: translateZ(-100px) scale(1.28) rotateY(-6deg);
+            opacity: 0.55;
+            filter: blur(5px) brightness(0.65);
+            animation: heroShift 34s linear infinite;
+        }
+        .hero-grid {
             position: absolute;
-            left: 8%;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffffff;
-            font-size: 8rem;
-            line-height: 1;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+            inset: 0;
+            background-image:
+                linear-gradient(180deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+            background-size: 80px 80px;
+            opacity: 0.18;
+            transform: rotateX(75deg) translateZ(90px) translateY(25%);
+            pointer-events: none;
+            animation: gridMove 24s linear infinite;
         }
-        .page {
-            max-width: 860px;
-            width: 100%;
-            padding: 2rem;
-            border-radius: 28px;
-            background: rgba(0, 0, 0, 0.55);
-            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(255,107,53,0.15), transparent 35%),
+                        linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0.85));
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 1rem;
+            max-width: 800px;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .video-section {
+            padding: 2rem 2rem 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
             text-align: center;
-            backdrop-filter: blur(10px);
         }
-        h1 {
-            margin: 0 0 1rem;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+        .video-section h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
         }
         .video-wrapper {
             position: relative;
             width: 100%;
-            max-width: 760px;
+            max-width: 820px;
             margin: 0 auto;
-            padding-bottom: 56.25%;
-            height: 0;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+            border-radius: 16px;
             overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
         }
         .video-wrapper iframe {
-            position: absolute;
-            inset: 0;
             width: 100%;
-            height: 100%;
+            height: 460px;
             border: 0;
         }
-        .note {
-            margin-top: 1.25rem;
-            color: #e8e8e8;
-            font-size: 1rem;
-            line-height: 1.6;
+        .section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section h3 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .game-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .game-card:hover {
+            transform: translateY(-10px);
+        }
+        .game-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .game-card-content {
+            padding: 1rem;
+        }
+        .game-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .game-card p {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .reviews {
+            background: rgba(0,0,0,0.3);
+        }
+        .review-item {
+            background: rgba(255,255,255,0.05);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary);
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.8);
+            color: #ccc;
+        }
+        .social-links {
+            margin-top: 1rem;
+        }
+        .social-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        @keyframes heroFloat {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(-10px, 8px, 0); }
+        }
+        @keyframes heroShift {
+            0% { transform: translateZ(-40px) scale(1.15) rotateY(8deg); }
+            50% { transform: translateZ(-35px) scale(1.18) rotateY(6deg); }
+            100% { transform: translateZ(-40px) scale(1.15) rotateY(8deg); }
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 400px 400px, -400px -400px; }
         }
     </style>
 </head>
 <body>
-    <div class="flag">
-        <div class="stripe red"></div>
-        <div class="stripe white"></div>
-        <div class="stripe red"></div>
-        <div class="stripe white"></div>
-        <div class="stripe red"></div>
-    </div>
-    <div class="triangle"></div>
-    <div class="star">★</div>
-    <div class="page">
-        <h1>Evelyn Ayala</h1>
-        <div class="video-wrapper">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/XqZsoesa55w?si=kYWuQkvA5fNsreGc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <header class="header">
+        <h1>JustHazzardous</h1>
+        <div class="header-right">
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#games">Games</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#news">News</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://tiktok.com/@JustHazzardous" target="_blank">TikTok</a>
+                <a href="https://instagram.com/JustHazzardous" target="_blank">Instagram</a>
+                <a href="https://kick.com/JustHazzardous" target="_blank">Kick</a>
+                <a href="https://youtube.com/@JustHazzardous" target="_blank">YouTube</a>
+                <a href="https://kick.com/JustHazzardous" target="_blank">Kick</a>
+            </div>
         </div>
-        <p class="note">Replace “Your Name” and the YouTube URL with your own content. The background uses the Puerto Rican flag colors.</p>
-    </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="hero-grid"></div>
+        </div>
+        <div class="hero-content">
+            <h2>Welcome to the Gaming Frontier</h2>
+            <p>Discover the latest games, reviews, and gaming news. Join the community of passionate gamers exploring virtual worlds and epic adventures.</p>
+        </div>
+    </section>
+
+    <section class="video-section">
+        <h3>Watch the Latest Video</h3>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/HaZxzQeoiCA?rel=0" title="JustHazzardous YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section id="games" class="section">
+        <h3>Featured Games</h3>
+        <div class="games-grid">
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400" alt="Cyberpunk Game">
+                <div class="game-card-content">
+                    <h4>Cyberpunk 2077</h4>
+                    <p>An open-world, action-adventure RPG set in the dark future of Night City.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400" alt="Space Game">
+                <div class="game-card-content">
+                    <h4>Starfield</h4>
+                    <p>Explore the vast universe in this epic space exploration game from Bethesda.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1556438064-2d7646166914?w=400" alt="Fantasy Game">
+                <div class="game-card-content">
+                    <h4>The Elder Scrolls VI</h4>
+                    <p>The next chapter in the legendary fantasy RPG series. Coming soon!</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1544415548-7a73c21ac9b2?w=400" alt="Battlefield Game">
+                <div class="game-card-content">
+                    <h4>Battlefield</h4>
+                    <p>High-octane multiplayer warfare with large-scale battles, vehicles, and explosive action.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400" alt="Call of Duty Game">
+                <div class="game-card-content">
+                    <h4>Call of Duty</h4>
+                    <p>Tactical FPS gameplay with cinematic campaigns and fast-paced multiplayer combat.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400" alt="2K Game">
+                <div class="game-card-content">
+                    <h4>2K</h4>
+                    <p>Premium sports and action titles from the iconic 2K studios collection.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="https://images.unsplash.com/photo-1528747045269-390fe33c19b7?w=400" alt="Tom Clancy The Division">
+                <div class="game-card-content">
+                    <h4>Tom Clancy's The Division</h4>
+                    <p>Cooperative tactical RPG shooter set in a post-pandemic New York City.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="section reviews">
+        <h3>Latest Reviews</h3>
+        <div class="review-item">
+            <h4>Alan Wake 2 - 9/10</h4>
+            <p>A masterful blend of horror, mystery, and storytelling. The live-action sequences are groundbreaking.</p>
+        </div>
+        <div class="review-item">
+            <h4>Marvel's Spider-Man 2 - 10/10</h4>
+            <p>Insomniac Games delivers another masterpiece. Peter and Miles' story is emotional and action-packed.</p>
+        </div>
+        <div class="review-item">
+            <h4>Diablo IV - 8.5/10</h4>
+            <p>Blizzard returns to its roots with this dark, addictive ARPG. The endgame content is extensive.</p>
+        </div>
+    </section>
+
+    <section id="news" class="section">
+        <h3>Gaming News</h3>
+        <div class="review-item">
+            <h4>PlayStation 6 Rumors Surface</h4>
+            <p>Insider reports suggest Sony is working on next-gen hardware with backward compatibility for all PS games.</p>
+        </div>
+        <div class="review-item">
+            <h4>Nintendo Switch 2 Release Date Leaked</h4>
+            <p>Alleged documents point to a 2025 launch for Nintendo's next hybrid console.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 JustHazzardous. All rights reserved. | Powered by Passion for Gaming</p>
+    </footer>
 </body>
 </html>
